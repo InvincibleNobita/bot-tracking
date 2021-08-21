@@ -7,7 +7,7 @@ from computer import comp
 
 tracker = EuclideanDistTracker()
 
-cap = cv2.VideoCapture('bot-vid.mp4')
+cap = cv2.VideoCapture(0)
 
 object_detector = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=40)
 
