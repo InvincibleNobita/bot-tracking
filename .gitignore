@@ -1,3 +1,8 @@
 requirements.in
 __pycache__
 ./MQTTX/credentials.h
+object_tracking
+main-my.py
+bot.py
+bot-vid.mp4
+zihuziya

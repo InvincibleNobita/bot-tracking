@@ -1,14 +1,14 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include "credentials.h"
-#define AWW analogWrite
+#define PWM analogWrite
 #define GLOW digitalWrite
 #define LED1 14
 #define LED2 12
 #define LED3 4
 #define LED4 5
-#define PWM1 9        //DEFINE A PWM GPIO HERE
-#define PWM2 10       //TODO: 
+#define EN1 9        //DEFINE A PWM GPIO HERE
+#define EN2 10       //TODO: 
 
 // WiFi
 const char* ssid = WIFI_SSID;
@@ -21,7 +21,44 @@ const int mqtt_port = 1883;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
+void forward() {
+          PWM(EN1,124);
+           PWM(EN2,124);
+           GLOW(LED1,HIGH);
+           GLOW(LED2,LOW);
+           GLOW(LED3,HIGH);
+           GLOW(LED4,LOW);
 
+}
+void reverse() {
+  PWM(EN1,124);
+           PWM(EN2,124);
+           GLOW(LED1,LOW);
+           GLOW(LED2,HIGH);
+           GLOW(LED3,LOW);
+           GLOW(LED4,HIGH);
+
+}
+void right() {
+  PWM(EN1,80);
+           PWM(EN2,80);
+          GLOW(LED1,HIGH);
+          GLOW(LED2,LOW);
+          GLOW(LED3,LOW);
+          GLOW(LED4,HIGH);
+          PWM(EN1,124);
+           PWM(EN2,124);
+}
+void left() {
+  PWM(EN1,80);
+           PWM(EN2,80);
+            GLOW(LED1,LOW);
+            GLOW(LED2,HIGH);
+            GLOW(LED3,HIGH);
+            GLOW(LED4,LOW);
+            PWM(EN1,124);
+           PWM(EN2,124);
+}
 void setup() {
   // Set software serial baud to 115200;
   Serial.begin(115200);
@@ -30,6 +67,8 @@ void setup() {
   pinMode(LED2,OUTPUT);
   pinMode(LED3,OUTPUT);
   pinMode(LED4,OUTPUT);
+  pinMode(EN1,OUTPUT);
+  pinMode(EN2,OUTPUT);
   WiFi.begin(ssid, pass);
   while (WiFi.status() != WL_CONNECTED) {
       delay(500);
@@ -65,40 +104,16 @@ void callback(char *topic, byte *payload, unsigned int length) {
   }
   switch(s.toInt())
   {
-    case 1:AWW(PWM1,124);
-           AWW(PWM2,124);
-           GLOW(LED1,HIGH);
-           GLOW(LED2,LOW);
-           GLOW(LED3,HIGH);
-           GLOW(LED4,LOW);
+    case 1: forward();
     break;
-    case 2:AWW(PWM1,124);
-           AWW(PWM2,124);
-           GLOW(LED1,LOW);
-           GLOW(LED2,HIGH);
-           GLOW(LED3,LOW);
-           GLOW(LED4,HIGH);
+    case 2: reverse();
     break;
-    case 3:AWW(PWM1,80);
-           AWW(PWM2,80);
-          GLOW(LED1,HIGH);
-          GLOW(LED2,LOW);
-          GLOW(LED3,LOW);
-          GLOW(LED4,HIGH);
-          AWW(PWM1,124);
-           AWW(PWM2,124);
+    case 3: right();
     break;
-    case 4: AWW(PWM1,80);
-           AWW(PWM2,80);
-            GLOW(LED1,LOW);
-            GLOW(LED2,HIGH);
-            GLOW(LED3,HIGH);
-            GLOW(LED4,LOW);
-            AWW(PWM1,124);
-           AWW(PWM2,124);
+    case 4: left();
     break;
-    default: AWW(PWM1,0);
-           AWW(PWM2,0);
+    default: PWM(EN1,0);
+           PWM(EN2,0);
     // default: GLOW(LED1,LOW);
     //         GLOW(LED2,LOW);
     //         GLOW(LED3,LOW);
