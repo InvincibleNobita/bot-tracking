@@ -95,6 +95,16 @@ while True:
             # start=False
             #print(mid)
             print("huurrah!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            print("Now chwck id and rotate accordingly!............")
+            if (id<2):
+                comp(2)
+                comp(0)
+                print("turning right 90deg")
+                
+            else:
+                comp(3)
+                comp(0)
+                print("turning left 90deg") 
             print(dist,dist2)
             drop=utils.checker(dist,dist2)
             print(dist,dist2,"d2")
@@ -103,6 +113,7 @@ while True:
                 continue
             else:
                 #TODO: Throw package command
+                comp(5)
                 if Return:
                     start=False
                 if drop:

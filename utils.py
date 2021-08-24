@@ -35,15 +35,6 @@ def checker(dist,dist1):
             print("stop")
             comp(0)
             # dist1=dist2
-            # if (id<2):
-            #     comp(2)
-            #     comp(0)
-            #     print("turning right 90deg")
-                
-            # else:
-            #     comp(3)
-            #     comp(0)
-            #     print("turning left 90deg") 
                 
             val = True
             
