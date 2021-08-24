@@ -1,5 +1,6 @@
 from math import *
 
+from computer import comp
 
 def dist(a,b):
     #two tuples/ coordinates
@@ -21,6 +22,48 @@ def std(a,b):
     x=x1
     y=y2
     return (x,y)
+
+def checker(dist,dist1):
+    #print(dist,dist1)
+    val=False
+    if dist:
+        
+        if(dist1<=5):
+            print(dist1)
+            dist1=0
+            dist.pop()
+            print("stop")
+            comp(0)
+            # dist1=dist2
+            # if (id<2):
+            #     comp(2)
+            #     comp(0)
+            #     print("turning right 90deg")
+                
+            # else:
+            #     comp(3)
+            #     comp(0)
+            #     print("turning left 90deg") 
+                
+            val = True
+            
+        elif(dist1<dist[-1]):
+            dist.pop()
+            dist.append(dist1)
+            print("forward")
+            comp(1)
+            comp(0)
+    else:
+        #if dist1:
+        dist.append(dist1)
+        #print(dist1)
+    #     # else:
+    #     #     dist.append(dist2)
+    #     #     print(dist2)
+
+    
+    return val
+
 
 
     

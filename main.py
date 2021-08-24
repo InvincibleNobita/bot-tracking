@@ -12,6 +12,11 @@ cap = cv2.VideoCapture(0)
 object_detector = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=40)
 
 dist=[]
+start=True
+mid=False
+drop=False
+Return= False
+End=False
 
 while True:
     
@@ -19,8 +24,8 @@ while True:
     
     #TODO: Check the height and width of your frame and put it in line 26
     height, width, _ = frame.shape
-    print("Manish",height,width)
-    time.delay(5)
+    #print("Manish",height,width)
+    #time.delay(5)
     
     roi = frame[0:352,150: 360]
 
@@ -35,7 +40,7 @@ while True:
         
         
         area = cv2.contourArea(cnt)
-        print(area) #TODO: check the area of your bot and accordingly set the if condition
+        #print(area) #TODO: check the area of your bot and accordingly set the if condition
         
         
         if area > 10000:
@@ -48,43 +53,72 @@ while True:
     for box_id in boxes_ids:
         x, y, w, h, id = box_id
         
-        if id==0:
-            cv2.putText(roi, str(id), (x, y - 15), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 5)
-            cv2.rectangle(roi, (x, y), (x + w, y + h), (0, 255, 0), 3)
-            cofbot=((x+w//2),(y+h//2))
-            cv2.circle(roi,cofbot,3,(0,0,255),-1)
-            endpnt=(300,20)
-            cv2.circle(roi,endpnt,7,(0,0,255),-1)
-          
+        
+        cv2.putText(roi, str(id), (x, y - 15), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 5)
+        cv2.rectangle(roi, (x, y), (x + w, y + h), (0, 255, 0), 3)
+        cofbot=((x+w//2),(y+h//2))
+        cv2.circle(roi,cofbot,3,(0,0,255),-1)
+        if not Return:
 
-            xy=utils.std(cofbot,endpnt)
-            cv2.circle(roi,xy,5,(0,0,255),-1)
-            cv2.line(roi,cofbot,xy,(122,122,210),7)
-            cv2.line(roi,xy,endpnt,(122,122,10),7)
+            endpnt=(300,200)
+        else:
+            endpnt=(150,220)
 
+        cv2.circle(roi,endpnt,7,(0,0,255),-1)
+        
+
+        xy=utils.std(cofbot,endpnt)
+        cv2.circle(roi,xy,5,(0,0,255),-1)
+        cv2.line(roi,cofbot,xy,(122,122,210),7)
+        cv2.line(roi,xy,endpnt,(122,122,10),7)
+
+        if not Return:
             dist1=utils.dist(cofbot,xy)
             dist2=utils.dist(xy,endpnt)
-            '''
-            0-> stop
-            1 -> forward
-            2 -> right
-            3-> left
-            '''
-            if dist:
-                if(dist1<=5):
-                    print(dist1)
-                    print("stop")
-                    comp(0)
-                elif(dist1<dist[-1]):
-                    dist.append(dist1)
-                    print("forward")
-                    comp(1)
+        else:
+            dist2r=utils.dist(cofbot,xy)
+            dist1r=utils.dist(xy,endpnt)
+
+        id=1
+        '''
+        0-> stop
+        1 -> forward
+        2 -> right
+        3-> left
+        '''
+        if not mid:
+            mid=utils.checker(dist,dist1)
+        #print(mid)
+        if start and not mid:
+            continue
+        else:
+            # start=False
+            #print(mid)
+            print("huurrah!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            print(dist,dist2)
+            drop=utils.checker(dist,dist2)
+            print(dist,dist2,"d2")
+            #print(drop)
+            if mid and not drop:
+                continue
             else:
-                dist.append(dist1)
-                print(dist1)
+                #TODO: Throw package command
+                if Return:
+                    start=False
+                if drop:
+                    Return=True
+        if Return :
+            print("returning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            print("rotating!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!----------------------------")
+            mid=False
+            drop=False
+        if not start and Return and drop:
+            print("DONNNEEEEEE-------------------------------------------------------------------.........")
+
+
     if ret:
         cv2.imshow("Frame", frame)
-       
+    time.sleep(0.095)
 
     if cv2.waitKey(1) & 0xff == ord('q'):
         break
