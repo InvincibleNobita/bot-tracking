@@ -121,6 +121,25 @@ while True:
         if Return :
             print("returning!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             print("rotating!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!----------------------------")
+            if (id<2):
+                comp(2)
+                comp(0)
+                print("turning right 90deg")
+                
+            else:
+                comp(3)
+                comp(0)
+                print("turning left 90deg")
+            if (id<2):
+                comp(2)
+                comp(0)
+                print("turning right 90deg")
+                
+            else:
+                comp(3)
+                comp(0)
+                print("turning left 90deg")
+
             mid=False
             drop=False
         if not start and Return and drop:
