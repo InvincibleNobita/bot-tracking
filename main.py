@@ -7,7 +7,7 @@ from computer import comp
 
 tracker = EuclideanDistTracker()
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('bot-vid.mp4')
 
 object_detector = cv2.createBackgroundSubtractorMOG2(history=100, varThreshold=40)
 
@@ -17,6 +17,7 @@ mid=False
 drop=False
 Return= False
 End=False
+straight=True
 
 while True:
     
@@ -57,7 +58,9 @@ while True:
         cv2.putText(roi, str(id), (x, y - 15), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 5)
         cv2.rectangle(roi, (x, y), (x + w, y + h), (0, 255, 0), 3)
         cofbot=((x+w//2),(y+h//2))
+        fofbot=(((x+w)-x)//2,y)
         cv2.circle(roi,cofbot,3,(0,0,255),-1)
+        
         if not Return:
 
             endpnt=(300,200)
@@ -71,7 +74,9 @@ while True:
         cv2.circle(roi,xy,5,(0,0,255),-1)
         cv2.line(roi,cofbot,xy,(122,122,210),7)
         cv2.line(roi,xy,endpnt,(122,122,10),7)
-
+        cv2.arrowedLine(roi,cofbot,fofbot,(100,100,100),3, cv2.LINE_AA)
+        straight,theta=utils.anglechecker(cofbot,fofbot,endpnt)
+        cv2.putText(roi, str(theta), (cofbot), cv2.FONT_HERSHEY_PLAIN, 2, (255, 20, 100), 5)
         if not Return:
             dist1=utils.dist(cofbot,xy)
             dist2=utils.dist(xy,endpnt)
@@ -94,17 +99,22 @@ while True:
         else:
             # start=False
             #print(mid)
+            straight,theta=utils.anglechecker(cofbot,fofbot,endpnt)
+            cv2.line(roi,cofbot,fofbot,(0,0,0),7)
+            cv2.line(roi,cofbot,endpnt,(0,0,0),7)
+            cv2.putText(roi, str(theta), (cofbot), cv2.FONT_HERSHEY_PLAIN, 2, (255, 20, 100), 5)
             print("huurrah!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             print("Now chwck id and rotate accordingly!............")
-            if (id<2):
-                comp(2)
-                comp(0)
-                print("turning right 90deg")
-                
-            else:
-                comp(3)
-                comp(0)
-                print("turning left 90deg") 
+            if not straight:
+                if (id<2):
+                    comp(2)
+                    comp(0)
+                    print("turning right 90deg")
+                    
+                else:
+                    comp(3)
+                    comp(0)
+                    print("turning left 90deg") 
             print(dist,dist2)
             drop=utils.checker(dist,dist2)
             print(dist,dist2,"d2")

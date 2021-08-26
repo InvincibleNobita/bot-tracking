@@ -22,6 +22,31 @@ def std(a,b):
     x=x1
     y=y2
     return (x,y)
+def frontofbot():
+    pass
+def anglechecker(centre,pt1,edge):
+    val=False
+    x,y=centre[0],centre[1]
+    x1,y1=edge[0],edge[1]
+    x2,y2=pt1[0],pt1[1]
+    if (x-x1==0):
+        m1=1
+    else:
+        m1=abs((y-y1)/(x-x1))
+    if (x-x2==0):
+        m2=1
+    else:
+        m2=abs((y-y2)/(x-x2))
+    print(m1,m2)
+    if (m1*m2==1):
+        theta=90
+    else:
+        rad=atan(abs((m1-m2)/(1+(m1*m2))))
+        theta=round(degrees(rad))
+    print(theta)
+    if theta<=5:
+        return True, theta
+    return val, theta
 
 def checker(dist,dist1):
     #print(dist,dist1)
@@ -29,7 +54,7 @@ def checker(dist,dist1):
     if dist:
         
         if(dist1<=5):
-            print(dist1)
+            #print(dist1)
             dist1=0
             dist.pop()
             print("stop")
