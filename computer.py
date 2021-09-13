@@ -3,10 +3,11 @@ import paho.mqtt.client as mqtt
 # import time
 #from main import dict
 #mqttBroker = "mqtt.eclipseprojects.io"
+'''
 mqttBroker = "test.mosquitto.org"
 client= mqtt.Client("COMPUTER")
 client.connect(mqttBroker)
-
+'''
     
 def comp(num):
         print(num)
@@ -27,7 +28,7 @@ def comp(num):
 
         
                 
-        client.publish(topic,mymess)
+        #client.publish(topic,mymess)
         print("just publish  "+str(mymess)+" to "+topic)
         #time.sleep(0.2)
 

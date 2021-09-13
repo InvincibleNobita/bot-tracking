@@ -4,6 +4,7 @@ from tracker import *
 import time
 
 from computer import comp
+from arenatrack import pointsList
 
 tracker = EuclideanDistTracker()
 
@@ -60,12 +61,13 @@ while True:
         cofbot=((x+w//2),(y+h//2))
         fofbot=(((x+w)-x)//2,y)
         cv2.circle(roi,cofbot,3,(0,0,255),-1)
+        #cv2.putText(frame, str(time.time()), (x, y - 40), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 5)
         
         if not Return:
 
-            endpnt=(300,200)
+            endpnt=(15,200) # TODO: #d1 point
         else:
-            endpnt=(150,220)
+            endpnt=(150,220) # TODO: #s1 point 
 
         cv2.circle(roi,endpnt,7,(0,0,255),-1)
         
@@ -102,8 +104,9 @@ while True:
             straight,theta=utils.anglechecker(cofbot,fofbot,endpnt)
             cv2.line(roi,cofbot,fofbot,(0,0,0),7)
             cv2.line(roi,cofbot,endpnt,(0,0,0),7)
-            cv2.putText(roi, str(theta), (cofbot), cv2.FONT_HERSHEY_PLAIN, 2, (255, 20, 100), 5)
+            #cv2.putText(roi, str(theta), (cofbot), cv2.FONT_HERSHEY_PLAIN, 2, (255, 20, 100), 5)
             print("huurrah!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            print(theta)
             print("Now chwck id and rotate accordingly!............")
             if not straight:
                 if (id<2):
@@ -154,10 +157,18 @@ while True:
             drop=False
         if not start and Return and drop:
             print("DONNNEEEEEE-------------------------------------------------------------------.........")
+            id+=1
+            start=True
+            mid=False
+            drop=False
+            Return= False
+            End=False
+            straight=True
 
 
     if ret:
         cv2.imshow("Frame", frame)
+        cv2.imshow("roi", roi)
     time.sleep(0.095)
 
     if cv2.waitKey(1) & 0xff == ord('q'):
